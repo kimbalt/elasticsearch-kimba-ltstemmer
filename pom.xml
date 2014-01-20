@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>gr.kimba</groupId>
 	<artifactId>elasticsearch-kimba-ltstemmer</artifactId>
-	<version>0.0.5-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<description>Lithuanian stemmer for ElasticSearch</description>
-	<inceptionYear>2012</inceptionYear>
+	<inceptionYear>2014</inceptionYear>
 
 	<licenses>
 		<license>
@@ -40,11 +40,6 @@
 		<url>http://github.com/RobertasV/elasticsearch-kimba-ltstemmer</url>
 	</scm>
 
-	<parent>
-		<artifactId>oss-parent</artifactId>
-		<groupId>org.sonatype.oss</groupId>
-		<version>7</version>
-	</parent>
 
 	<dependencies>
 		<dependency>
@@ -197,4 +192,5 @@
 			</build>
 		</profile>
 	</profiles>
+	<url>www.kimba.lt</url>
 </project>

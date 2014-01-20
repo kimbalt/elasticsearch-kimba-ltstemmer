@@ -62,8 +62,8 @@ Example usage:
 	index:
 	  analysis:
 	    filter:
-	      stem_greek:
-	        type: skroutz_stem_greek
+	      stem_lt:
+	        type: kimba_stem_lt
 
 
 Warning
