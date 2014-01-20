@@ -16,10 +16,10 @@ import org.elasticsearch.indices.analysis.IndicesAnalysisService;
 import org.hamcrest.MatcherAssert;
 import org.testng.annotations.Test;
 
-public class SimpleSkroutzGreekStemmerAnalysisTest {
+public class SimpleKimbaLtStemmerAnalysisTest {
 
   @Test
-  public void testSkroutzGreekStemmerAnalysis() {
+  public void testKimbaLtStemmerAnalysis() {
       Index index = new Index("test");
 
       Injector parentInjector = new ModulesBuilder().add(new SettingsModule(EMPTY_SETTINGS),
@@ -28,14 +28,14 @@ public class SimpleSkroutzGreekStemmerAnalysisTest {
       Injector injector = new ModulesBuilder().add(
               new IndexSettingsModule(index, EMPTY_SETTINGS),
               new IndexNameModule(index),
-              new AnalysisModule(EMPTY_SETTINGS, parentInjector.getInstance(IndicesAnalysisService.class)).addProcessor(new SkroutzGreekStemmerBinderProcessor()))
+              new AnalysisModule(EMPTY_SETTINGS, parentInjector.getInstance(IndicesAnalysisService.class)).addProcessor(new KimbaLtStemmerBinderProcessor()))
               .createChildInjector(parentInjector);
 
       AnalysisService analysisService = injector.getInstance(AnalysisService.class);
 
 
-      TokenFilterFactory filterFactory = analysisService.tokenFilter("skroutz_stem_greek");
-      MatcherAssert.assertThat(filterFactory, instanceOf(SkroutzGreekStemmerTokenFilterFactory.class));
+      TokenFilterFactory filterFactory = analysisService.tokenFilter("kimba_stem_lt");
+      MatcherAssert.assertThat(filterFactory, instanceOf(KimbaLtStemmerTokenFilterFactory.class));
   }
 
 }

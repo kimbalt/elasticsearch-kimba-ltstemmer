@@ -27,17 +27,17 @@ import java.util.Arrays;
  */
 
 /**
- * A stemmer for Greek words, according to: <i>Development of a Stemmer for the
- * Greek Language.</i> Georgios Ntais
+ * A stemmer for Lithuanian words, according to: <i>Development of a Stemmer for the
+ * Lithuanian Language.</i> Georgios Ntais
  * <p>
- * NOTE: Input is expected to be casefolded for Greek (including folding of final
+ * NOTE: Input is expected to be casefolded for Lithuanian (including folding of final
  * sigma to sigma), and with diacritics removed. This can be achieved with
- * either {@link GreekLowerCaseFilter} or ICUFoldingFilter.
+ * either {@link LithuanianLowerCaseFilter} or ICUFoldingFilter.
  *
  * This stemmer is based on the stemmer of the @lucene.experimental with some
  * additions.
  * <p>
- * According to: <i>Development of a Stemmer for the Greek Language.</i>, the
+ * According to: <i>Development of a Stemmer for the Lithuanian Language.</i>, the
  * original stemmer removed 158 suffixes. Eight suffixes were not handled at
  * all by this stemmer. However, four of those eight suffixes belong to the same
  * category with one of the suffixes that is actually handle by the stemmer.
@@ -47,24 +47,24 @@ import java.util.Arrays;
  * Furthermore, the suffix "εασ" is not stemmed correctly and is not even
  * included in the original 166 suffixes that should be removed.
  * <p>
- * This custom Greek stemmer adds to the current rule set some more cases about
+ * This custom Lithuanian stemmer adds to the current rule set some more cases about
  * the following suffixes:
  * <p>
  * <b>"ιο", "ιασ", "ιεσ", "ιοσ", "ιουσ", "ιοι", "εασ", "εα"</b>
  * <p>
- * Following the same strategy with the Greek stemmer of lucene, some exceptions
+ * Following the same strategy with the Lithuanian stemmer of lucene, some exceptions
  * about these suffixes are added.
  */
-public class SkroutzGreekStemmer {
+public class KimbaLtStemmer {
   public final static String DEFAULT_STOPWORD_FILE = "stopwords.txt";
   private final CharArraySet stopwords;
 
-  public SkroutzGreekStemmer(final CharArraySet stopwords) {
+  public KimbaLtStemmer(final CharArraySet stopwords) {
     this.stopwords = stopwords;
   }
 
-  public SkroutzGreekStemmer() {
-    this.stopwords = SkroutzGreekStemmer.getDefaultStopSet();
+  public KimbaLtStemmer() {
+    this.stopwords = KimbaLtStemmer.getDefaultStopSet();
   }
 
   public static final CharArraySet getDefaultStopSet(){
@@ -77,7 +77,7 @@ public class SkroutzGreekStemmer {
     static {
       try {
         DEFAULT_SET = loadStopwordSet(
-            SkroutzGreekStemmer.class.getResourceAsStream(DEFAULT_STOPWORD_FILE),
+            KimbaLtStemmer.class.getResourceAsStream(DEFAULT_STOPWORD_FILE),
             Version.LUCENE_44);
       } catch (IOException ex) {
         // default set should always be present as it is part of the
@@ -258,7 +258,7 @@ public class SkroutzGreekStemmer {
   }
 
   /**
-   * Exceptions added to the Skroutz Greek stemmer about suffixes "εασ", "εα", in
+   * Exceptions added to the Kimba Lt stemmer about suffixes, in
    * order to improve the quality of the query.
    * <p>
    * Exception examples:
@@ -290,7 +290,7 @@ public class SkroutzGreekStemmer {
   }
 
   /**
-   * Exceptions added to the Skroutz Greek stemmer about rule 5, in order to
+   * Exceptions added to the Kimba Lt stemmer about rule 5, in order to
    * improve the quality of the query.
    * <p>
    * Exception examples:

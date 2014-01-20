@@ -2,11 +2,11 @@ package org.elasticsearch.index.analysis;
 
 import org.elasticsearch.index.analysis.AnalysisModule.AnalysisBinderProcessor;
 
-public class SkroutzGreekStemmerBinderProcessor extends AnalysisBinderProcessor {
+public class KimbaLtStemmerBinderProcessor extends AnalysisBinderProcessor {
 	
 	@Override
 	public void processTokenFilters(TokenFiltersBindings tokenFiltersBindings) {
-		tokenFiltersBindings.processTokenFilter("skroutz_stem_greek", SkroutzGreekStemmerTokenFilterFactory.class);
+		tokenFiltersBindings.processTokenFilter("kimba_stem_lt", KimbaLtStemmerTokenFilterFactory.class);
 	}
 
 

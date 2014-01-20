@@ -8,26 +8,26 @@ import org.apache.lucene.analysis.tokenattributes.KeywordAttribute;
 import org.apache.lucene.analysis.util.CharArraySet;
 
 /**
- * A {@link TokenFilter} that applies {@link SkroutzGreekStemmer} to stem Greek
+ * A {@link TokenFilter} that applies {@link KimbaLtStemmer} to stem Lithuanian
  * words.
  * <p>
- * NOTE: Input is expected to be casefolded for Greek (including folding of final
+ * NOTE: Input is expected to be casefolded for Lithuanian (including folding of final
  * sigma to sigma), and with diacritics removed. This can be achieved by using
- * either {@link GreekLowerCaseFilter} or ICUFoldingFilter before GreekStemFilter.
+ * either ICUFoldingFilter before LtStemFilter.
  *
- * Exported from @lucene.experiment and modified in order to use the Skroutz
- * Greek stemmer.
+ * Exported from @lucene.experiment and modified in order to use the Kimba
+ * Lithuanian stemmer.
  */
-public class SkroutzGreekStemTokenFilter extends TokenFilter {
-  private final SkroutzGreekStemmer stemmer;
+public class KimbaLtStemTokenFilter extends TokenFilter {
+  private final KimbaLtStemmer stemmer;
 	private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
 	private final KeywordAttribute keywordAttr = addAttribute(KeywordAttribute.class);
 
-	public SkroutzGreekStemTokenFilter(TokenStream input,
+	public KimbaLtStemTokenFilter(TokenStream input,
 	    CharArraySet stopwords)
 	{
 		super(input);
-    this.stemmer = new SkroutzGreekStemmer(stopwords);
+    this.stemmer = new KimbaLtStemmer(stopwords);
 	}
 
 	@Override

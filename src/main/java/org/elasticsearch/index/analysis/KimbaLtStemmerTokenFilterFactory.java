@@ -16,12 +16,12 @@ import org.elasticsearch.env.FailedToResolveConfigException;
 import org.elasticsearch.index.Index;
 import org.elasticsearch.index.settings.IndexSettings;
 
-public class SkroutzGreekStemmerTokenFilterFactory extends
+public class KimbaLtStemmerTokenFilterFactory extends
 		AbstractTokenFilterFactory {
 
   private final CharArraySet stopwords;
 	@Inject
-	public SkroutzGreekStemmerTokenFilterFactory(Index index,
+	public KimbaLtStemmerTokenFilterFactory(Index index,
 			@IndexSettings Settings indexSettings,
 			Environment env, @Assisted String name,
 			@Assisted Settings settings) throws IOException {
@@ -31,7 +31,7 @@ public class SkroutzGreekStemmerTokenFilterFactory extends
 
 	@Override
 	public TokenStream create(TokenStream tokenStream) {
-		return new SkroutzGreekStemTokenFilter(tokenStream, stopwords);
+		return new KimbaLtStemTokenFilter(tokenStream, stopwords);
 	}
 
   private CharArraySet parseStopWords(Environment env, Settings settings,
@@ -59,7 +59,7 @@ public class SkroutzGreekStemmerTokenFilterFactory extends
           stopwordsReader.close();
       }
     } else {
-      return SkroutzGreekStemmer.getDefaultStopSet();
+      return KimbaLtStemmer.getDefaultStopSet();
     }
   }
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<name>elasticsearch-skroutz-greekstemmer</name>
+	<name>elasticsearch-kimba-ltstemmer</name>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>gr.skroutz</groupId>
-	<artifactId>elasticsearch-skroutz-greekstemmer</artifactId>
+	<groupId>gr.kimba</groupId>
+	<artifactId>elasticsearch-kimba-ltstemmer</artifactId>
 	<version>0.0.5-SNAPSHOT</version>
-	<description>Greek stemmer for ElasticSearch</description>
+	<description>Lithuanian stemmer for ElasticSearch</description>
 	<inceptionYear>2012</inceptionYear>
 
 	<licenses>
@@ -24,10 +24,10 @@
 	<developers>
 		<developer>
 			<id>stathopa</id>
-			<name>Tasos Stathopoulos</name>
-			<email>stathopa@skroutz.gr</email>
-			<organization>Skroutz S.A.</organization>
-			<organizationUrl>http://www.skroutz.gr</organizationUrl>
+			<name>RobertasV</name>
+			<email>robertas.valeika@gmail.com</email>
+			<organization>Kimba</organization>
+			<organizationUrl>http://www.kimba.lt</organizationUrl>
 			<roles>
 				<role>developer</role>
 			</roles>
@@ -35,10 +35,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:git@github.com:skoutz/elasticsearch-skroutz-greekstemmer.git</connection>
-		<developerConnection>scm:git:git@github.com:skroutz/elasticsearch-skroutz-greekstemmer.git
-        </developerConnection>
-		<url>http://github.com/skroutz/elasticsearch-skroutz-greekstemmer</url>
+		<connection>scm:git:git@github.com:RobertasV/elasticsearch-kimba-ltstemmer.git</connection>
+		<developerConnection>scm:git:git@github.com:RobertasV/elasticsearch-kimba-ltstemmer.git</developerConnection>
+		<url>http://github.com/RobertasV/elasticsearch-kimba-ltstemmer</url>
 	</scm>
 
 	<parent>

@@ -9,7 +9,7 @@ import org.apache.lucene.analysis.util.WordlistLoader;
 import org.apache.lucene.util.IOUtils;
 
 public class UpdateStemmingSamples {
-  private final static SkroutzGreekStemmer stemmer = new SkroutzGreekStemmer();
+  private final static KimbaLtStemmer stemmer = new KimbaLtStemmer();
 
   public static void main(String args[])
       throws java.io.IOException, java.io.FileNotFoundException
