@@ -34,7 +34,7 @@ public class SimpleKimbaLtStemmerAnalysisTest {
       AnalysisService analysisService = injector.getInstance(AnalysisService.class);
 
 
-      TokenFilterFactory filterFactory = analysisService.tokenFilter("kimba_stem_lt");
+      TokenFilterFactory filterFactory = analysisService.tokenFilter("kimba_lt_stemmer");
       MatcherAssert.assertThat(filterFactory, instanceOf(KimbaLtStemmerTokenFilterFactory.class));
   }
 

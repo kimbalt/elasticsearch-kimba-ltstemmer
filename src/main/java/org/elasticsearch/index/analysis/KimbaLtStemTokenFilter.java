@@ -19,6 +19,7 @@ import org.apache.lucene.analysis.util.CharArraySet;
  * Lithuanian stemmer.
  */
 public class KimbaLtStemTokenFilter extends TokenFilter {
+    
   private final KimbaLtStemmer stemmer;
 	private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
 	private final KeywordAttribute keywordAttr = addAttribute(KeywordAttribute.class);
@@ -27,7 +28,7 @@ public class KimbaLtStemTokenFilter extends TokenFilter {
 	    CharArraySet stopwords)
 	{
 		super(input);
-    this.stemmer = new KimbaLtStemmer(stopwords);
+		this.stemmer = new KimbaLtStemmer(stopwords);
 	}
 
 	@Override

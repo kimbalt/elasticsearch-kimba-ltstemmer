@@ -59,7 +59,7 @@ public class KimbaLtStemmerTokenFilterFactory extends
           stopwordsReader.close();
       }
     } else {
-      return KimbaLtStemmer.getDefaultStopSet();
+      return CharArraySet.EMPTY_SET;
     }
   }
 }

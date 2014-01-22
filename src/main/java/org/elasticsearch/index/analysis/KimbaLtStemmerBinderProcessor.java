@@ -6,7 +6,7 @@ public class KimbaLtStemmerBinderProcessor extends AnalysisBinderProcessor {
 	
 	@Override
 	public void processTokenFilters(TokenFiltersBindings tokenFiltersBindings) {
-		tokenFiltersBindings.processTokenFilter("kimba_stem_lt", KimbaLtStemmerTokenFilterFactory.class);
+		tokenFiltersBindings.processTokenFilter("kimba_lt_stemmer", KimbaLtStemmerTokenFilterFactory.class);
 	}
 
 
