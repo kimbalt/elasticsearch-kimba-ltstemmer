@@ -1,128 +1,89 @@
 package org.elasticsearch.index.analysis;
 
-import org.apache.lucene.analysis.util.CharArraySet;
-import org.apache.lucene.analysis.util.WordlistLoader;
-import org.apache.lucene.util.IOUtils;
-import org.apache.lucene.util.Version;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
-/**
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-/**
- * A stemmer for Lithuanian words, according to: <i>Development of a Stemmer for the
- * Lithuanian Language.</i> Georgios Ntais
- * <p>
- * NOTE: Input is expected to be casefolded for Lithuanian (including folding of final
- * sigma to sigma), and with diacritics removed. This can be achieved with
- * either {@link LithuanianLowerCaseFilter} or ICUFoldingFilter.
- *
- * This stemmer is based on the stemmer of the @lucene.experimental with some
- * additions.
- * <p>
- * According to: <i>Development of a Stemmer for the Lithuanian Language.</i>, the
- * original stemmer removed 158 suffixes. Eight suffixes were not handled at
- * all by this stemmer. However, four of those eight suffixes belong to the same
- * category with one of the suffixes that is actually handle by the stemmer.
- * This suffix is "ια" which is mishandled and may be the plural type of the
- * suffix "ιο".
- * <p>
- * Furthermore, the suffix "εασ" is not stemmed correctly and is not even
- * included in the original 166 suffixes that should be removed.
- * <p>
- * This custom Lithuanian stemmer adds to the current rule set some more cases about
- * the following suffixes:
- * <p>
- * <b>"ιο", "ιασ", "ιεσ", "ιοσ", "ιουσ", "ιοι", "εασ", "εα"</b>
- * <p>
- * Following the same strategy with the Lithuanian stemmer of lucene, some exceptions
- * about these suffixes are added.
- */
+
 public class KimbaLtStemmer {
-  public final static String DEFAULT_STOPWORD_FILE = "stopwords.txt";
-  private final CharArraySet stopwords;
-
-  public KimbaLtStemmer(final CharArraySet stopwords) {
-    this.stopwords = stopwords;
-  }
 
   public KimbaLtStemmer() {
-    this.stopwords = KimbaLtStemmer.getDefaultStopSet();
-  }
-
-  public static final CharArraySet getDefaultStopSet(){
-    return DefaultSetHolder.DEFAULT_SET;
-  }
-
-  private static class DefaultSetHolder {
-    private static final CharArraySet DEFAULT_SET;
-
-    static {
-      try {
-        DEFAULT_SET = loadStopwordSet(
-            KimbaLtStemmer.class.getResourceAsStream(DEFAULT_STOPWORD_FILE),
-            Version.LUCENE_44);
-      } catch (IOException ex) {
-        // default set should always be present as it is part of the
-        // distribution (JAR)
-        throw new RuntimeException("Unable to load default stopword set");
-      }
-    }
   }
   
-  private final String[] singularNominativeEndings 
-	= {"ias", "jas", "ius", "jus", "dis", "dys", "tis", "tis", "tys", "čia", "as"};
-  
-  private final String[] pluralNominativeEndings 
-	= {"ys", "ia", "ja", "us", "is", "is", "uo", "tė", "dė", "ti", "a", "i", "ė"};
-  
-  private final String[] singularDativeEndings 
-	= {"džiui", "džiui", "čiui", "čiai", "čiui", "čiai", "iui", "jui", "iui", "jui", "ui"};
+  private final String[] wordEndings 
+  = {
+  "ias", "io", "iui", "ią", "iu", "yje", "y", "iai", "ių", "iams", "ius", "iais", "iuose", "iai",
+  "jas", "jo", "jui", "ją", "ju", "juje", "jau", "jai", "jų", "jams", "jus", "jais", "juose", "jai",
+  "ius", "iaus", "iui", "ių", "iumi", "iuje", "iau", "iai", "ių", "iams", "ius", "iais", "iuose", "iai",
+  "jus", "jaus", "jui", "jų", "jumi", "juje", "jau", "jai", "jų", "jams", "jus", "jais", "juose", "jai",
+  "dis", "džio", "džiui", "dį", "džiu", "dyje", "di", "džiai", "džių", "džiams", "džius", "džiais", "džiuose", "džiai",
+  "dys", "džio", "džiui", "dį", "džiu", "dyje", "dy", "džiai", "džių", "džiams", "džius", "džiais", "džiuose", "džiai",
+  "tis", "čio", "čiui", "tį", "čiu", "tyje", "ti", "čiai", "čių", "čiams", "čius", "čiais", "čiuose", "čiai",
+  "tis", "ties", "čiai", "tį", "timi", "tyje", "tie", "tys", "čių", "tims", "tis", "timis", "tyse", "tys",
+  "tys", "čio", "čiui", "tį", "čiu", "tyje", "ty", "čiai", "čių", "čiams", "čius", "čiais", "čiuose", "čiai",
+  "čia", "čios", "čiai", "čią", "čia", "čioje", "čia", "čios", "čių", "čioms", "čias", "čiomis", "čiose", "čios",
+  "as", "o", "ui", "ą", "u", "e", "e", "ai", "ų", "ams", "us", "ais", "uose", "ai",
+  "ys", "io", "iui", "į", "iu", "yje", "y", "iai", "ių", "iams", "ius", "iais", "iuose", "iai",
+  "ia", "ios", "iai", "ią", "ia", "ioje", "ia", "ios", "ių", "ioms", "ias", "iomis", "iose", "ios",
+  "ja", "jos", "jai", "ją", "ja", "joje", "ja", "jos", "jų", "joms", "jas", "jomis", "jose", "jos",
+  "us", "aus", "ui", "ų", "umi", "uje", "au", "ūs", "ų", "ums", "us", "umis", "uose", "ūs",
+  "is", "io", "iui", "į", "iu", "yje", "i", "iai", "ių", "iams", "ius", "iais", "iuose", "iai",
+  "is", "ies", "iai", "į", "imi", "yje", "ie", "ys", "ių", "ims", "is", "imis", "yse", "ys",
+  "uo", "ens", "eniui", "enį", "eniu", "enyje", "enie", "enys", "enų", "enims", "enis", "enimis", "enyse", "enys",
+  "tė", "tės", "tei", "tę", "te", "tėje", "te", "tės", "čių", "tėms", "tes", "tėmis", "tėse", "tės",
+  "dė", "dės", "dei", "dę", "de", "dėje", "de", "dės", "džių", "dėms", "des", "dėmis", "dėse", "dės",
+  "ti", "čios", "čiai", "čią", "čia", "čioje", "čia", "čios", "čių", "čioms", "čias", "čiomis", "čiose", "čios",
+  "a", "os", "ai", "ą", "a", "oje", "a", "os", "ų", "oms", "as", "omis", "ose", "os",
+  "i", "ios", "iai", "ią", "ia", "ioje", "ia", "ios", "ių", "ioms", "ias", "iomis", "iose", "ios",
+  "ė", "ės", "ei", "ę", "e", "ėje", "e", "ės", "ių", "ėms", "es", "ėmis", "ėse", "ės",
 
-  public int stem(char s[], int len) {
+  "esnis", "esnio", "esniam", "esnį", "esniu", "esniame", "esni", "esni", "esnių", "esniems", "esnius", "esniais", "esniuose", "esni",
+  "elis", "elio", "eliam", "elį", "eliu", "eliame", "eli", "eli", "elių", "eliems", "elius", "eliais", "eliuose", "eli",
+  "inis", "inio", "iam", "inį", "iniu", "iniame", "ini", "iniai", "inių", "iniams", "inius", "iniais", "iniuose", "iniai",
+  "asis", "ojo", "ąjam", "ąjį", "uoju", "ąjame", "asis", "ieji", "ųjų", "iesiems", "uosius", "aisiais", "uosiuose", "ieji",
+  "oji", "osios", "ąjai", "ąją", "ąja", "ojoje", "oji", "osios", "ųjų", "osioms", "ąsias", "osiomis", "osiose", "osios",
+  "ias", "io", "iam", "ią", "iu", "iame", "ias", "i", "ių", "iems", "ius", "iais", "iuose", "i",
+  "tis", "čio", "čiam", "tį", "čiu", "čiame", "tis", "tys", "čių", "tiems", "čius", "čiais", "čiuose", "tys",
+  "as", "o", "am", "ą", "u", "ame", "as", "i", "ų", "iems", "us", "ais", "uose", "i",
+  "is", "io", "iam", "į", "iu", "iame", "i", "iai", "ių", "iams", "ius", "iais", "iuose", "iai",
+  "ys", "io", "iam", "į", "iu", "iame", "y", "iai", "ių", "iems", "ius", "iais", "iuose", "iai",
+  "us", "aus", "iam", "ų", "iu", "iame", "us", "ūs", "ių", "iems", "ius", "iais", "iuose", "ūs",
+  "ti", "čios", "čiai", "čią", "čia", "čioje", "ti", "čios", "čių", "čioms", "čias", "čiomis", "čiose", "čios",
+  "a", "os", "ai", "ą", "a", "oje", "a", "os", "ų", "oms", "as", "omis", "ose", "os",
+  "i", "ios", "iai", "ią", "ia", "ioje", "i", "ios", "ių", "ioms", "ias", "iomis", "iose", "ios",
+  "a", "os", "ai", "ą", "a", "oje", "a", "os", "ų", "oms", "as", "omis", "ose", "os",
+  "ė", "ės", "ei", "ę", "e", "ėje", "e", "ės", "ių", "ėms", "es", "ėmis", "ėse", "ės",
+
+  "asis", "ojo", "ąjam", "ąjį", "uoju", "ąjame", "asis", "ieji", "ųjų", "iesiems", "uosius", "aisiais", "uosiuose", "ieji",
+  "oji", "osios", "ąjai", "ąją", "ąja", "ojoje", "oji", "osios", "ųjų", "osioms", "ąsias", "osiomis", "osiose", "osios"
+  };
+  
+  public class MyComparator implements Comparator<String>{
+	    @Override
+	    public int compare(String o1, String o2) {  
+	      if (o1.length() > o2.length()) {
+	         return 1;
+	      } else if (o1.length() < o2.length()) {
+	         return -1;
+	      }
+	      return o1.compareTo(o2);
+	    }
+	}
+  
+  	public int stem(char s[], int len) {
+	  
+	  Arrays.sort(wordEndings, new MyComparator());
     
-	  // Too short or a stopword
-	  //if (len < 3 || stopwords.contains(s, 0, len))
-		//  return len;
-
-	  //nominative
-	  for(int i = 0; i < this.singularNominativeEndings.length; i++){
-		  String ending = this.singularNominativeEndings[i];
-		  if(endsWith(s, len, ending)){
-			  return len - ending.length();
-		  }
-	  }
-	  for(int i = 0; i < this.pluralNominativeEndings.length; i++){
-		  String ending = this.pluralNominativeEndings[i];
-		  if(endsWith(s, len, ending)){
-			  return len - ending.length();
-		  }
-	  }
+	  if (len < 3)
+		  return len;
 	  
-	  //dative
-	  for(int i = 0; i < this.singularDativeEndings.length; i++){
-		  String ending = this.singularDativeEndings[i];
+	  for(int i = 0; i < this.wordEndings.length; i++){
+		  String ending = this.wordEndings[i];
 		  if(endsWith(s, len, ending)){
 			  return len - ending.length();
 		  }
 	  }
-	  
 	  return len;
   }
   
@@ -141,31 +102,5 @@ public class KimbaLtStemmer {
 		  if (s[len -(suffixLen - i)] != suffix.charAt(i))
 			  return false;
 	  return true;
-  }
-  
-  
-
-  /**
-   * Creates a CharArraySet from a file.
-   *
-   * @param stopwords
-   *          Input stream from the stopwords file
-   *
-   * @param matchVersion
-   *          the Lucene version for cross version compatibility
-   * @return a CharArraySet containing the distinct stopwords from the given
-   *         file
-   * @throws IOException
-   *           if loading the stopwords throws an {@link IOException}
-   */
-  private static CharArraySet loadStopwordSet(InputStream stopwords,
-      Version matchVersion) throws IOException {
-    Reader reader = null;
-    try {
-      reader = IOUtils.getDecodingReader(stopwords, IOUtils.CHARSET_UTF_8);
-      return WordlistLoader.getWordSet(reader, matchVersion);
-    } finally {
-      IOUtils.close(reader);
-    }
   }
 }

@@ -5,7 +5,6 @@ import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.KeywordAttribute;
-import org.apache.lucene.analysis.util.CharArraySet;
 
 /**
  * A {@link TokenFilter} that applies {@link KimbaLtStemmer} to stem Lithuanian
@@ -20,15 +19,14 @@ import org.apache.lucene.analysis.util.CharArraySet;
  */
 public class KimbaLtStemTokenFilter extends TokenFilter {
     
-  private final KimbaLtStemmer stemmer;
+	private final KimbaLtStemmer stemmer;
 	private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
 	private final KeywordAttribute keywordAttr = addAttribute(KeywordAttribute.class);
 
-	public KimbaLtStemTokenFilter(TokenStream input,
-	    CharArraySet stopwords)
+	public KimbaLtStemTokenFilter(TokenStream input)
 	{
 		super(input);
-		this.stemmer = new KimbaLtStemmer(stopwords);
+		this.stemmer = new KimbaLtStemmer();
 	}
 
 	@Override
