@@ -54,7 +54,7 @@ In order to install the latest version of the plugin, simply run:
 
 ### Testing analyzer
 
-    curl -XGET http://localhost:9200/test_lt/_analyze?analyzer=lt_analyzer&text=Giedraičiai&pretty/
+    curl -XGET http://localhost:9200/test_lt/_analyze?analyzer=lt_analyzer&text=Giedraičiai&pretty
 
 And you should get:
 
